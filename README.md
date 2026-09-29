@@ -205,7 +205,7 @@ Adding a new AI provider means implementing a single `complete()` method; nothin
 
 ## Quick start
 
-You need **Python 3.11+** and **Node.js 20+**. Optionally install [Ollama](https://ollama.com) to run models locally.
+You need **Python 3.11+** and **Node.js 20+**. Optionally install [Ollama](https://ollama.com) to run models locally (see the [Ollama guide](docs/ollama.md)).
 
 ```bash
 # Terminal 1: backend (API on http://127.0.0.1:8000)
@@ -239,6 +239,7 @@ The complete setup, configuration reference, provider guide and troubleshooting 
 | Document | What's inside |
 |---|---|
 | [How to run RepoCompass](docs/how-to-run.md) | Installation, configuration, AI providers, troubleshooting, project structure, API reference, development |
+| [Running with Ollama (local AI)](docs/ollama.md) | Installing and starting Ollama, downloading models, connecting it, making it fast on your GPU, cloud models, troubleshooting |
 | [Product requirements](docs/prd.md) | The original problem statement and goals |
 | [Project idea](docs/project-idea.md) | The vision: from "I don't understand this repository" to "I know where to start" |
 

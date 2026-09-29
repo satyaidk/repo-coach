@@ -20,7 +20,7 @@ For what RepoCompass is and how it works, see the [main README](../README.md).
 |---|---|---|
 | Python | 3.11 or newer | the backend (`backend/`) |
 | Node.js | 20 or newer | the frontend (`frontend/`) |
-| Ollama | optional | running AI models locally, for free |
+| Ollama | optional | running AI models locally, for free ([setup guide](ollama.md)) |
 
 ## Quick start
 
@@ -96,7 +96,8 @@ it. After a guide is written you can switch model and press **Rewrite guide** to
 | **Anthropic** | `ANTHROPIC_API_KEY` | Claude models. |
 | **Google Gemini** | `GEMINI_API_KEY` | |
 
-**Running models locally on a laptop.** While a guide is being written, run `ollama ps`. If the
+**Running models locally.** The [Ollama guide](ollama.md) covers installing and starting Ollama,
+downloading models and tuning speed step by step. The short version: while a guide is being written, run `ollama ps`. If the
 `PROCESSOR` column shows a CPU/GPU split instead of `100% GPU`, the model doesn't fit in your GPU's memory and
 will be slow. Lower `OLLAMA_NUM_CTX` or use a smaller model. Small models (a few billion parameters) write
 shorter, rougher guides than large cloud models, and on a 4 GB laptop GPU a guide can take around 10 minutes.
@@ -114,6 +115,7 @@ as local ones.
 | *Can't reach Ollama … Start it with `ollama serve`* | Start Ollama (or open the Ollama app). |
 | *Ollama model '…' not found* | Download it: `ollama pull <model>`. |
 | *Ollama stopped responding for 5 minutes* | The model is too big for your machine. Lower `OLLAMA_NUM_CTX` or choose a smaller model. |
+| Anything else about Ollama | See [Troubleshooting in the Ollama guide](ollama.md#troubleshooting). |
 | *… didn't return valid JSON twice in a row* | Small models sometimes produce broken output. Press **Try again**, or switch to a larger model. |
 | The provider menu shows "(not set up)" | That provider has no API key in `backend/.env`, or for Ollama, the Ollama server isn't running. |
 | A path in the guide is crossed out and marked **not in repo** | Working as intended: the AI mentioned a file that doesn't exist, and RepoCompass flagged it. |
