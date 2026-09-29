@@ -94,6 +94,14 @@
     background: rgb(217 119 87 / 0.3);
   }
 
+  /* Show code, paths and URLs exactly as typed: no programming-font ligatures merging "//", "=>"... */
+  code,
+  pre,
+  input,
+  .font-mono {
+    font-variant-ligatures: none;
+  }
+
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;

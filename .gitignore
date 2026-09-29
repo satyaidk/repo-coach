@@ -1,7 +1,16 @@
+# Secrets: real API keys live in backend/.env and must never be committed
 .env
+
+# Python (backend/)
 .venv/
 venv/
 __pycache__/
 *.pyc
 .pytest_cache/
 .cache/
+
+# The frontend has its own rules in frontend/.gitignore (node_modules, .next, .env.local...)
+
+# OS / editor files
+.DS_Store
+Thumbs.db

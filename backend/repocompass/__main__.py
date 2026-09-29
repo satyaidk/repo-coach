@@ -12,7 +12,7 @@ def main() -> None:
     parser.add_argument("--reload", action="store_true", help="restart on code changes (for development)")
     args = parser.parse_args()
     print(f"RepoCompass API running at http://{args.host}:{args.port} (docs at /docs)")
-    print("Start the web app with `npm run dev` in the web/ folder, then open http://localhost:3000")
+    print("Start the UI with `npm run dev` in the frontend/ folder, then open http://localhost:3000")
     uvicorn.run("repocompass.main:app", host=args.host, port=args.port, reload=args.reload)
 
 

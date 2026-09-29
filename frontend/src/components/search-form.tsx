@@ -127,7 +127,7 @@ export function providerSetupNote(providers: ProvidersResponse | null) {
   const notes: string[] = [];
   if (needKeys.length) {
     const names = needKeys.length > 1 ? `${needKeys.slice(0, -1).join(", ")} or ${needKeys.at(-1)}` : needKeys[0];
-    notes.push(`To use ${names}, add an API key to the .env file and restart the API.`);
+    notes.push(`To use ${names}, add an API key to backend/.env and restart the API.`);
   }
   if (ollama && !ollama.ready) notes.push(ollama.note);
   return notes.join(" ");
