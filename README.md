@@ -40,7 +40,14 @@ real tree, so invented files are marked `not in repo` instead of misleading you.
 
 ## Setup
 
-You need Python 3.11+.
+RepoCompass has two parts that run side by side:
+
+- **Backend** (`repocompass/`): a Python FastAPI app on port 8000 that talks to GitHub and the AI models
+- **Frontend** (`web/`): a Next.js + TypeScript + Tailwind CSS app on port 3000, the page you open
+
+You need Python 3.11+ and Node.js 20+.
+
+**1. Backend** (first terminal):
 
 ```bash
 python -m venv .venv
@@ -51,15 +58,29 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 cp .env.example .env        # then fill in what you use (see below)
-python -m repocompass       # open http://127.0.0.1:8000
+python -m repocompass       # API on http://127.0.0.1:8000
+```
+
+**2. Frontend** (second terminal):
+
+```bash
+cd web
+npm install
+npm run dev                 # open http://localhost:3000
 ```
 
 The folder map, stack, entry points and contributor checklist work with **no AI at all**.
-Choose "No AI, map only" in the "Guide written by" menu.
+Choose "No AI (map only)" in the "AI guide by" menu.
+
+The page has light, dark and "match my system" themes (top-right corner), with Claude orange as the accent.
+If the API runs somewhere other than `http://127.0.0.1:8000`, copy `web/.env.example` to `web/.env.local`
+and set `NEXT_PUBLIC_API_URL`. If the page runs somewhere other than port 3000, add its address to
+`FRONTEND_ORIGINS` in the root `.env`.
 
 ## Choosing an AI provider
 
-Pick one per analysis from the "Guide written by" menu, and type any model name in the box next to it.
+Pick one per analysis from the "AI guide by" menu, and type any model name in the box next to it.
+After a guide is written you can switch model and press "Rewrite guide" to compare them.
 Set up whichever providers you want in `.env`:
 
 | Provider | What to set in `.env` | Notes |
@@ -69,7 +90,8 @@ Set up whichever providers you want in `.env`:
 | Anthropic | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | |
 | Google Gemini | `GEMINI_API_KEY`, `GEMINI_MODEL` | |
 
-`DEFAULT_LLM_PROVIDER` picks which one is selected when the page loads. Restart the server after editing `.env`.
+`DEFAULT_LLM_PROVIDER` picks which one is selected the first time the page loads (after that, the page
+remembers your last choice). Restart the API after editing `.env`.
 
 **Ollama on a laptop:** local models need enough GPU memory to run fast. Run `ollama ps` while a guide is
 being written: if it shows a CPU/GPU split rather than `100% GPU`, lower `OLLAMA_NUM_CTX` or use a smaller model.
@@ -80,13 +102,13 @@ Small models (a few billion parameters) write shorter, rougher guides than big c
 Add `GITHUB_TOKEN` to `.env` to get 5,000 and to analyze private repos you can access.
 
 Guides are cached in `.cache/` per commit and model, so mapping the same repo again with the same model is
-instant and costs no tokens. To force a fresh guide, call the API with `"refresh": true`.
+instant and costs no tokens. "Rewrite guide" skips the cache and writes a fresh one.
 
 ## Project structure
 
 ```
-repocompass/
-├── main.py              FastAPI app: the web page and the JSON API
+repocompass/             Python backend
+├── main.py              FastAPI app: the JSON API (+ CORS for the frontend)
 ├── github.py            GitHub API client + URL parsing
 ├── config.py            settings from .env
 ├── explainer.py         prompt, JSON parsing, path checking, caching
@@ -100,8 +122,17 @@ repocompass/
 │   ├── base.py          the LLMProvider interface every provider implements
 │   ├── registry.py      creates a provider by name; lists which are ready
 │   └── *_provider.py    OpenAI, Anthropic, Gemini, Ollama
-└── static/              the web page (plain HTML/CSS/JS, no build step)
 tests/                   pytest suite (offline: GitHub and the AI are faked)
+
+web/                     Next.js frontend
+├── src/app/             layout (fonts, theme script), the page, global styles and color tokens
+├── src/components/
+│   ├── explorer.tsx     the main screen: search, loading states, results layout
+│   ├── file-tree.tsx    the folder map and the file detail panel
+│   ├── repo-map-context.tsx   shared tree state, so any path in the guide can open the map
+│   ├── sections/        the guide's cards (overview, route, architecture, stack, contributing...)
+│   └── ui/              small building blocks (buttons, cards, path chips, copy button)
+└── src/lib/             API client, response types, theme logic, formatting helpers
 ```
 
 **Adding another AI provider** means writing one class with a `complete(system, prompt)` method
@@ -120,8 +151,13 @@ Interactive docs at `http://127.0.0.1:8000/docs`.
 ## Development
 
 ```bash
-pytest                         # run the tests
-python -m repocompass --reload # restart automatically when code changes
+pytest                         # backend tests
+python -m repocompass --reload # restart the API automatically when code changes
+
+cd web
+npm run lint                   # ESLint
+npx tsc --noEmit               # TypeScript type check
+npm run build                  # production build
 ```
 
 ## Ideas for what's next

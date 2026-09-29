@@ -36,7 +36,7 @@ export function SectionNav({ items }: { items: NavItem[] }) {
   }, [ids]);
 
   return (
-    <nav aria-label="Sections" className="-mx-1 overflow-x-auto">
+    <nav aria-label="Sections" className="-mx-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <ul className="flex min-w-max gap-1 px-1">
         {items.map((item) => (
           <li key={item.id}>

@@ -35,7 +35,7 @@ export function FileTreePanel() {
 
       <div className={cn("flex min-h-0 flex-1 flex-col", !mapOpen && "hidden lg:flex")}>
         <Legend />
-        <div className="max-h-[55vh] min-h-32 flex-1 overflow-auto px-2 pb-2 lg:max-h-none">
+        <div data-tree-scroll className="max-h-[55vh] min-h-32 flex-1 overflow-auto px-2 pb-2 lg:max-h-none">
           <ul aria-label={`Files in ${report.repo.full_name}`}>
             <TreeRows node={report.tree} path="" depth={0} />
           </ul>
