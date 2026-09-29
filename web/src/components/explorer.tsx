@@ -1,7 +1,8 @@
 "use client";
 
 import { Info, RefreshCw, TriangleAlert } from "lucide-react";
-import { useEffect, useEffectEvent, useRef, useState, type MouseEvent } from "react";
+import Link from "next/link";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 
 import { FileTreePanel } from "@/components/file-tree";
 import { Hero } from "@/components/hero";
@@ -143,13 +144,12 @@ export function Explorer() {
     writeGuide(repoUrlRef.current, provider, model, true, runRef.current);
   }
 
-  function goHome(event: MouseEvent) {
-    event.preventDefault();
+  // The logo link navigates to "/"; this clears the current repo (and cancels a pending guide).
+  function goHome() {
     runRef.current++;
     setReport(null);
     setBusy(false);
     setNotice(null);
-    window.history.replaceState(null, "", "/");
     document.title = "RepoCompass";
   }
 
@@ -222,9 +222,9 @@ export function Explorer() {
     <div className="flex min-h-screen flex-col">
       <header className="z-30 border-b border-line bg-bg/85 backdrop-blur-md lg:sticky lg:top-0">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3 lg:h-16 lg:flex-nowrap lg:py-0">
-          <a href="/" onClick={goHome} aria-label="RepoCompass home" className="rounded-lg">
+          <Link href="/" onClick={goHome} aria-label="RepoCompass home" className="rounded-lg">
             <Logo />
-          </a>
+          </Link>
           {report && <div className="order-last w-full lg:order-none lg:w-auto lg:flex-1">{form}</div>}
           <div className="ml-auto">
             <ThemeToggle />
