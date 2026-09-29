@@ -14,7 +14,7 @@ async function request<T>(path: string, body?: unknown): Promise<T> {
     });
   } catch {
     throw new ApiError(
-      `Can't reach the RepoCompass API at ${API_URL}. Start it with \`python -m repocompass\` in the project folder.`,
+      `Can't reach the RepoCompass API at ${API_URL}. Start it by running \`python -m repocompass\` in the backend folder.`,
     );
   }
 

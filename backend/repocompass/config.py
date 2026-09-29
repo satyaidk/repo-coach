@@ -7,9 +7,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# The backend/ folder: holds .env (your settings and API keys) and .cache/ (saved guides).
+BACKEND_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(PROJECT_ROOT / ".env")
+load_dotenv(BACKEND_DIR / ".env")
 
 
 def _env(name: str, default: str = "") -> str:
@@ -59,5 +60,5 @@ def get_settings() -> Settings:
             for origin in (_env("FRONTEND_ORIGINS") or "http://localhost:3000,http://127.0.0.1:3000").split(",")
             if origin.strip()
         ),
-        cache_dir=PROJECT_ROOT / ".cache",
+        cache_dir=BACKEND_DIR / ".cache",
     )

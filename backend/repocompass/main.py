@@ -1,4 +1,4 @@
-"""FastAPI app: the JSON API behind the Next.js frontend in `web/`.
+"""FastAPI app: the JSON API behind the Next.js app in `frontend/`.
 
     POST /api/analyze   {url}                        -> static report (tree, stack, entry points...)
     POST /api/explain   {url, provider, model?, refresh?} -> AI-written beginner's guide
