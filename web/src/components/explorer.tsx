@@ -1,6 +1,6 @@
 "use client";
 
-import { Info, RefreshCw, TriangleAlert } from "lucide-react";
+import { Info, RefreshCw, Sparkles, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 
@@ -256,28 +256,27 @@ export function Explorer() {
               </div>
 
               <div className="z-20 -mx-4 mt-4 border-b border-line bg-bg/85 px-4 py-2 backdrop-blur-md lg:sticky lg:top-16">
-                <div className="flex items-center gap-3">
-                  <div className="min-w-0 flex-1">
-                    <SectionNav items={navItems(guide)} />
-                  </div>
-                  {guideState.status === "done" && guideResult && (
-                    <div className="hidden shrink-0 items-center gap-2 text-xs text-muted md:flex">
-                      <span>
-                        Guide by <b className="font-semibold text-fg">{guideResult.model}</b>
-                        {guideResult.cached && " (saved copy)"}
-                      </span>
-                      <Button variant="ghost" size="sm" onClick={rewriteGuide} title="Write a fresh guide with the selected model">
-                        <RefreshCw className="size-3.5" aria-hidden /> Rewrite
-                      </Button>
-                    </div>
-                  )}
-                </div>
+                <SectionNav items={navItems(guide)} />
               </div>
 
               <div className="mt-5 grid items-start gap-5 lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
                 <FileTreePanel />
                 <div className="min-w-0 space-y-5">
                   <GuideStatus state={guideState} onRetry={rewriteGuide} />
+                  {guideState.status === "done" && guideResult && (
+                    <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-surface px-4 py-2 text-sm text-muted">
+                      <span className="inline-flex items-center gap-2">
+                        <Sparkles className="size-4 text-accent" aria-hidden />
+                        <span>
+                          Guide written by <b className="font-semibold text-fg">{guideResult.model}</b>
+                          {guideResult.cached && ", loaded from your saved copy"}
+                        </span>
+                      </span>
+                      <Button variant="ghost" size="sm" onClick={rewriteGuide} title="Write a fresh guide with the model selected above">
+                        <RefreshCw className="size-3.5" aria-hidden /> Rewrite guide
+                      </Button>
+                    </div>
+                  )}
                   <OverviewSection />
                   <RouteSection />
                   <ArchitectureSection />

@@ -110,12 +110,19 @@ export function RepoMapProvider({
       });
       setSelected(path);
       setMapOpen(true);
-      // Wait for React to render the newly expanded rows, then bring the row into view.
+      // Wait for React to render the newly expanded rows, then center the row inside the tree panel
+      // without scrolling the page (so you don't lose your place in the guide).
       requestAnimationFrame(() => {
         const row = document.querySelector<HTMLElement>(`[data-tree-path="${CSS.escape(path)}"]`);
-        const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
-        row?.scrollIntoView({ block: "center", behavior: smooth ? "smooth" : "auto" });
-        row?.focus({ preventScroll: true });
+        const scroller = row?.closest<HTMLElement>("[data-tree-scroll]");
+        if (!row || !scroller) return;
+        const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+        const rowBox = row.getBoundingClientRect();
+        const box = scroller.getBoundingClientRect();
+        scroller.scrollBy({ top: rowBox.top - box.top - box.height / 2 + rowBox.height / 2, behavior });
+        // On small screens the map isn't sticky; bring it on screen if it's out of view.
+        if (box.bottom < 0 || box.top > window.innerHeight) scroller.scrollIntoView({ block: "center", behavior });
+        row.focus({ preventScroll: true });
       });
     },
     [findNode],

@@ -68,7 +68,7 @@ export function SearchForm({
         </Button>
       </div>
 
-      <div className={cn("flex flex-wrap items-center gap-2 text-sm", compact ? "" : "mt-3 px-1")}>
+      <div className={cn("flex flex-wrap items-center gap-2 text-sm", compact ? "lg:flex-nowrap" : "mt-3 px-1")}>
         <label htmlFor={`${id}-provider`} className="flex items-center gap-1.5 font-medium text-muted">
           <Sparkles className="size-4 text-accent" aria-hidden />
           {compact ? "Guide by" : "AI guide by"}
@@ -78,7 +78,10 @@ export function SearchForm({
           value={provider}
           onChange={(e) => onProviderChange(e.target.value)}
           disabled={!providers}
-          className="h-8 rounded-lg border border-line bg-surface px-2 text-sm text-fg outline-none hover:border-line-strong focus:border-accent"
+          className={cn(
+            "h-8 rounded-lg border border-line bg-surface px-2 text-sm text-fg outline-none hover:border-line-strong focus:border-accent",
+            compact && "w-40",
+          )}
         >
           <option value={NO_AI}>No AI (map only)</option>
           {providers?.providers.map((p) => (
@@ -99,7 +102,10 @@ export function SearchForm({
               onChange={(e) => onModelChange(e.target.value)}
               placeholder={current.default_model}
               spellCheck={false}
-              className="h-8 w-52 max-w-full rounded-lg border border-line bg-surface px-2 font-mono text-[13px] text-fg outline-none hover:border-line-strong focus:border-accent"
+              className={cn(
+                "h-8 max-w-full rounded-lg border border-line bg-surface px-2 font-mono text-[13px] text-fg outline-none hover:border-line-strong focus:border-accent",
+                compact ? "w-44" : "w-56",
+              )}
             />
             <datalist id={`${id}-models`}>
               {current.models.map((m) => (
