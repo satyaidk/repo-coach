@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/* Dark mode follows the data-theme attribute set by the theme script in layout.tsx. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* "Clay": Claude orange (#D97757) and its tints/shades. */
+  --color-clay-50: #fdf4f0;
+  --color-clay-100: #fae6dd;
+  --color-clay-200: #f4cbb9;
+  --color-clay-300: #eca88d;
+  --color-clay-400: #e38b6b;
+  --color-clay-500: #d97757;
+  --color-clay-600: #b9583a;
+  --color-clay-700: #9a4630;
+  --color-clay-800: #7a3827;
+  --color-clay-900: #5b2a1e;
+  --color-clay-950: #33170f;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --animate-draw-down: draw-down 900ms cubic-bezier(0.3, 0.7, 0.2, 1) both;
+
+  @keyframes draw-down {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+}
+
+/* Semantic colors. Components use these (bg-surface, text-muted...) so themes are one place. */
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f5f4f2;
+  --line: #e9e6e3;
+  --line-strong: #d6d2ce;
+  --fg: #1c1917;
+  --muted: #6b645e;
+  --accent: #d97757;
+  --accent-strong: #b9583a; /* fills with white text: 4.6:1 contrast */
+  --accent-text: #b9583a; /* links and accent-colored text */
+  --accent-soft: #fcefe9;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #131211;
+  --surface: #1b1a18;
+  --surface-2: #232120;
+  --line: #2f2c29;
+  --line-strong: #3f3b37;
+  --fg: #f3f0ed;
+  --muted: #a8a29e;
+  --accent: #d97757;
+  --accent-strong: #b9583a;
+  --accent-text: #eb9a7e;
+  --accent-soft: rgb(217 119 87 / 0.14);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 1rem;
+  }
+
+  /* On large screens the header and section nav stick to the top; keep anchors below them. */
+  @media (width >= 64rem) {
+    html {
+      scroll-padding-top: 8.5rem;
+    }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  ::selection {
+    background: rgb(217 119 87 / 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* Mermaid diagrams scale to their container. */
+.diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

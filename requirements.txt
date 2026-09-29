@@ -1,0 +1,12 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+httpx>=0.27
+python-dotenv>=1.0
+
+# LLM providers (install only the ones you use; Ollama needs no package)
+openai>=1.50
+anthropic>=0.40
+google-genai>=1.0
+
+# dev
+pytest>=8
